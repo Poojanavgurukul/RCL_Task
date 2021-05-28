@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import '../Header/header.css';
 import UserList from '../User/userList';
+import PostList from '../User/postList';
 import useFetch from '../../CustomHooks/useFetch';
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -60,6 +61,7 @@ export default function ScrollableTabsButtonForce() {
     setValue(newValue);
   };
   const { data:users, isloading, error } = useFetch('https://jsonplaceholder.typicode.com/users');
+  const { data:posts, isPending, errorLog } = useFetch('https://jsonplaceholder.typicode.com/posts');
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default">
@@ -82,7 +84,9 @@ export default function ScrollableTabsButtonForce() {
             {users && <UserList allUsers={users} />}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+            {errorLog && <div>{errorLog}</div>}
+            {isPending && <div>loading.....</div>}
+            {posts && <PostList allPosts={posts} allUsers={users} />}
       </TabPanel>
     </div>
   );
