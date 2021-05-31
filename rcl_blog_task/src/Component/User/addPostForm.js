@@ -1,8 +1,23 @@
-import { makeStyles } from "@material-ui/core/styles";
+import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import { makeStyles } from '@material-ui/core/styles';
+
+
 import { useState } from "react";
 import { useHistory } from "react-router";
 
-const useStyles = makeStyles(()=>({
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+const useStyles = makeStyles((theme)=>({
+  root: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },
   formBox:{
     display:"flex",
     flexWrap:"wrap",
@@ -30,6 +45,8 @@ const Postform = ({allUsersData}) => {
   const [body, setBody] = useState('');
   const [user, setUser] = useState('');
   const [isPending, setIsPending] = useState('');
+  const [open, setOpen] = useState(false);
+
   const history = useHistory();
 
   const handleSubmit =(e)=>{
@@ -39,18 +56,30 @@ const Postform = ({allUsersData}) => {
     fetch("https://jsonplaceholder.typicode.com/posts",{
       method:'POST',
       headers:{"Content-type":"application/json"},
-      body:JSON.stringify(console.log(post))
+      body:JSON.stringify(post)
     }).then(()=>{
-      console.log("new blog added");
       setIsPending(false);
       history.push('/')
+    }).catch((err)=>{
+      console.log(err.message);
     })
   }
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
 
   return ( 
     <div>
       <h2>Adding a Post</h2>
-      <form className={classes.formBox} onSubmit={handleSubmit}>
+      <form className={classes.formBox} onSubmit={handleSubmit} >
         <label>Title:</label>
         <input 
           type="text"
@@ -74,8 +103,15 @@ const Postform = ({allUsersData}) => {
             ) )
           }
         </select>
-        {!isPending ? <button className={classes.addBtn}>Add Blog</button>:<button disabled className={classes.addBtn}>Adding Blog...</button>}
+        {!isPending ? <button className={classes.addBtn} onClick={handleClick}>Add Post</button>:<button disabled className={classes.addBtn}>Adding Post...</button>}
       </form>
+      <div className={classes.root}>
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="success">
+              Post Added SucessFully!
+            </Alert>
+          </Snackbar>
+        </div>
     </div>
    );
 }
