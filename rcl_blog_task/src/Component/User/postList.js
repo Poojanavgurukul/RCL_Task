@@ -14,12 +14,16 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 
-
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -67,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
 export default function BasicTable({allPosts,allUsers}) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [snackBarOpen, setSnackbarOpen] = useState(false);
   const [opened, setOpened] = useState(false);
   const [allData, setAllData]= useState([]);
   const [postId, setPostId]= useState(null);
@@ -95,8 +100,16 @@ export default function BasicTable({allPosts,allUsers}) {
   const handleClosed = () => {
     setOpened(false);
   };
+  
+  const handleSnackBarClosed = (event, reason) =>{
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  }
 
   const handleDelete = (id) => {
+    setSnackbarOpen(true);
     fetch(`http://localhost:8000/posts/${id}`,{
       method:'DELETE',
     })
@@ -207,6 +220,13 @@ export default function BasicTable({allPosts,allUsers}) {
           </TableBody>
         </Table>
       </TableContainer>
+      <div className={classes.root}>
+          <Snackbar open={snackBarOpen} autoHideDuration={8000} onClose={handleSnackBarClosed}>
+            <Alert onClose={handleSnackBarClosed} severity="success">
+              Post deleted SucessFully!
+            </Alert>
+          </Snackbar>
+      </div>
     </div>
   );
 }

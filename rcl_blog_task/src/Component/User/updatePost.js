@@ -1,10 +1,14 @@
-import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import useFetch from '../../CustomHooks/useFetch';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 const useStyles = makeStyles((theme)=>({
     formBox:{
       display:"flex",
@@ -33,10 +37,21 @@ const EditPost = ({allUsersData,postId}) => {
     const [body, setBody] = useState('');
     const [username, setUserName] = useState('');
     const [isPending, setIsPending] = useState(false);
+    const [open, setOpen] = useState(false);
     const history = useHistory();
     const {data:post} = useFetch(`http://localhost:8000/posts/${postId}`);
-    console.log(post,'update')
-    console.log(postId,'id')
+
+    const handleClick = () => {
+        setOpen(true);
+      };
+    
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        setOpen(false);
+    };
+
     const handleUpdate = (e) => {
         e.preventDefault();
         const post = {title, body, username};
@@ -51,6 +66,7 @@ const EditPost = ({allUsersData,postId}) => {
             history.push("/");
         });
     }
+    
     useEffect(()=>{
         if(post){
             setTitle(post.title);
@@ -88,8 +104,15 @@ const EditPost = ({allUsersData,postId}) => {
                 }
             </select> 
             </div>
-            {!isPending ? <button variant="contained" color="primary" className={classes.addBtn} /*onClick={handleClick}*/>Update Post</button>:<button disabled variant="contained" color="primary" className={classes.addBtn}>updating Post .....</button>}
+            {!isPending ? <button variant="contained" color="primary" className={classes.addBtn} onClick={handleClick}>Update Post</button>:<button disabled variant="contained" color="primary" className={classes.addBtn}>updating Post .....</button>}
             </form>
+            <div className={classes.root}>
+                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="success">
+                    Post Updated SucessFully!
+                    </Alert>
+                </Snackbar>
+            </div>
         </div>
      );
 }
