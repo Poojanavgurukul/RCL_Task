@@ -1,8 +1,7 @@
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+
 import { makeStyles } from '@material-ui/core/styles';
-
-
 import { useState } from "react";
 import { useHistory } from "react-router";
 
@@ -42,15 +41,14 @@ const Postform = ({allUsersData}) => {
   const classes = useStyles();
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
-  const [user, setUser] = useState('');
+  const [username, setUserName] = useState('');
   const [isPending, setIsPending] = useState('');
   const [open, setOpen] = useState(false);
 
   const history = useHistory();
 
-  const handleSubmit =(e)=>{
-    e.preventDefault()
-    const post = {title, body, user};
+  const handleSubmit =()=>{
+    const post = {title, body, username};
     setIsPending(true);
     //https://jsonplaceholder.typicode.com/posts (instead of local server api use this api also)
     fetch("http://localhost:8000/posts",{
@@ -79,7 +77,8 @@ const Postform = ({allUsersData}) => {
   return ( 
     <div>
       <h2>Adding a Post</h2>
-      <form className={classes.formBox} onSubmit={handleSubmit} >
+      <form  onSubmit={handleSubmit} >
+        <div className={classes.formBox}>
         <label>Title:</label>
         <input 
           type="text"
@@ -96,13 +95,14 @@ const Postform = ({allUsersData}) => {
          onChange={(e)=>setBody(e.target.value)}
          className={classes.space}
         />
-        <select value={user} onChange={(e)=>setUser(e.target.value)} className={classes.space}>
+        <select value={username} onChange={(e)=>setUserName(e.target.value)} className={classes.space}>
           {
             allUsersData.map( user =>(
               <option>{user.username}</option>
             ) )
           }
         </select>
+        </div>
         {!isPending ? <button className={classes.addBtn} onClick={handleClick}>Add Post</button>:<button disabled className={classes.addBtn}>Adding Post...</button>}
       </form>
       <div className={classes.root}>

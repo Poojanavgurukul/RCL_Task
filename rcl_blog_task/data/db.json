@@ -1,10 +1,22 @@
 {
   "posts": [
     {
-      "title": "jee",
-      "body": "bfke",
-      "user": "",
-      "id": 1
+      "title": "okay",
+      "body": "vuwdie",
+      "username": "Delphine",
+      "id": 7
+    },
+    {
+      "title": "pooja",
+      "body": "pooja",
+      "username": "Kamren",
+      "id": 8
+    },
+    {
+      "title": "hello",
+      "body": "hello",
+      "username": "Samantha",
+      "id": 9
     }
   ]
 }

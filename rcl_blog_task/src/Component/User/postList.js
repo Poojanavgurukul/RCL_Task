@@ -8,10 +8,13 @@ import Paper from '@material-ui/core/Paper';
 import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
 import PostForm from '../User/addPostForm';
+import UpDate from '../User/updatePost';
 import Modal from '@material-ui/core/Modal';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+
 import { makeStyles } from '@material-ui/core/styles';
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
@@ -31,13 +34,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
   modalBox:{
-    display:"flex",
-    justifyContent:"center",
-    flexWrap:"wrap",
     padding:"1rem",
     backgroundColor:"white",
     width:"30vw",
-    height:"50vh",
+    height:"60vh",
     position:"absolute",
     right:"25%",
     left:"35%",
@@ -52,12 +52,25 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
   },
+  cancelBtn:{
+    backgroundColor:"#3f51b5",
+    outline:"0",
+    cursor:"pointer",
+    textTransform:"uppercase",
+    borderRadius:"4px",
+    color:"#fff",
+    padding:"6px 16px",
+    transition:"background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms"
+  }
 }));
 
 export default function BasicTable({allPosts,allUsers}) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [opened, setOpened] = useState(false);
   const [allData, setAllData]= useState([]);
+  const [postId, setPostId]= useState(null);
+
   const history = useHistory();
 
   const  getAllDatas = () =>{
@@ -71,9 +84,16 @@ export default function BasicTable({allPosts,allUsers}) {
   const handleOpen = () => {
     setOpen(true);
   };
+  const handleOpened = (id) => {
+    setOpened(true);
+    setPostId(id);
+  };
 
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleClosed = () => {
+    setOpened(false);
   };
 
   const handleDelete = (id) => {
@@ -129,12 +149,13 @@ export default function BasicTable({allPosts,allUsers}) {
               <TableCell align="center">Title</TableCell>
               <TableCell align="center">Body</TableCell>
               <TableCell align="center">Delete</TableCell>
+              <TableCell align="center">Edit</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {allData.map((post,index) => (
               <TableRow key={index}>
-                <TableCell align="center">{post.username} </TableCell>
+                <TableCell align="center">{post.username}</TableCell>
                 <TableCell align="center">{post.id}</TableCell>
                 <TableCell align="center">{post.title}</TableCell>
                 <TableCell align="center">{post.body}</TableCell>
@@ -148,6 +169,38 @@ export default function BasicTable({allPosts,allUsers}) {
                   >
                       Delete
                   </Button>
+                </TableCell>
+                <TableCell align="center">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    startIcon={<EditIcon />}
+                    onClick={()=>handleOpened(post.id)}
+                  >
+                      Edit
+                  </Button>
+                  <Modal
+                  open={opened}
+                  onClose={handleClosed}
+                  aria-labelledby="simple-modal-title"
+                  aria-describedby="simple-modal-description"
+                  >
+                  <div className={classes.modalBox}>
+                  <UpDate  allUsersData={allUsers} postId={postId}/>
+                  <IconButton
+                        aria-label="close"
+                        color="inherit"
+                        size="small"
+                        onClick={handleClosed} className={classes.closeBtn}
+                      >
+                        <CloseIcon fontSize="inherit" />
+                      </IconButton>
+                      <button variant="contained" color="primary" onClick={handleClosed} className={classes.cancelBtn}>
+                        Cancel
+                      </button>
+                  </div>
+                  </Modal>
                 </TableCell>
               </TableRow>
             ))}

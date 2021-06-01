@@ -2,6 +2,7 @@ import Home from '../src/Component/Home/homePage';
 import UserList from '../src/Component/User/userList';
 import useFetch from '../src/CustomHooks/useFetch';
 import PostList from '../src/Component/User/postList';
+import EditPost from '../src/Component/User/updatePost';
 
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
@@ -24,6 +25,9 @@ function App() {
             {errorLog && <div>{errorLog}</div>}
             {isPending && <div>loading.....</div>}
             {posts && <PostList allPosts={posts} allUsers={users} />}
+          </Route>
+          <Route path="/update/:id">
+              <EditPost />
           </Route>
         </Switch>
       </div>
