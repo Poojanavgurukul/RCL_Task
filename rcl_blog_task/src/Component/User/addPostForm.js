@@ -1,4 +1,3 @@
-import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
@@ -53,7 +52,8 @@ const Postform = ({allUsersData}) => {
     e.preventDefault()
     const post = {title, body, user};
     setIsPending(true);
-    fetch("https://jsonplaceholder.typicode.com/posts",{
+    //https://jsonplaceholder.typicode.com/posts (instead of local server api use this api also)
+    fetch("http://localhost:8000/posts",{
       method:'POST',
       headers:{"Content-type":"application/json"},
       body:JSON.stringify(post)
@@ -111,7 +111,7 @@ const Postform = ({allUsersData}) => {
               Post Added SucessFully!
             </Alert>
           </Snackbar>
-        </div>
+      </div>
     </div>
    );
 }

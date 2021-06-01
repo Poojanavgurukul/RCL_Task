@@ -1,4 +1,3 @@
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -12,11 +11,19 @@ import PostForm from '../User/addPostForm';
 import Modal from '@material-ui/core/Modal';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-
-
+import DeleteIcon from '@material-ui/icons/Delete';
+import { makeStyles } from '@material-ui/core/styles';
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router";
+
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },
   table: {
     minWidth: 650,
   },
@@ -41,14 +48,17 @@ const useStyles = makeStyles((theme) => ({
     position:"absolute",
     top:"0",
     right:"0"
-  }
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
 }));
 
 export default function BasicTable({allPosts,allUsers}) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-
   const [allData, setAllData]= useState([]);
+  const history = useHistory();
 
   const  getAllDatas = () =>{
     const mergeData = (post, user) =>
@@ -65,6 +75,18 @@ export default function BasicTable({allPosts,allUsers}) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleDelete = (id) => {
+    fetch(`http://localhost:8000/posts/${id}`,{
+      method:'DELETE',
+    })
+    .then(()=>{
+      history.push('/');
+    })
+    .catch((err)=>{
+      console.log(err.message);
+    })
+  }
 
   useEffect(()=>{
     getAllDatas()
@@ -106,6 +128,7 @@ export default function BasicTable({allPosts,allUsers}) {
               <TableCell align="center">Post Id</TableCell>
               <TableCell align="center">Title</TableCell>
               <TableCell align="center">Body</TableCell>
+              <TableCell align="center">Delete</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -115,6 +138,17 @@ export default function BasicTable({allPosts,allUsers}) {
                 <TableCell align="center">{post.id}</TableCell>
                 <TableCell align="center">{post.title}</TableCell>
                 <TableCell align="center">{post.body}</TableCell>
+                <TableCell align="center">
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    className={classes.button}
+                    startIcon={<DeleteIcon />}
+                    onClick={()=>handleDelete(post.id)}
+                  >
+                      Delete
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
