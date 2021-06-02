@@ -9,7 +9,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 function App() {
     const { data:users, isloading, error } = useFetch('https://jsonplaceholder.typicode.com/users');
-    const { data:posts, isPending, errorLog } = useFetch('http://localhost:8000/posts');//https://jsonplaceholder.typicode.com/posts
+    const { data:posts, isPending, errorLog } = useFetch('https://jsonplaceholder.typicode.com/posts');//https://jsonplaceholder.typicode.com/posts or http://localhost:8000
   return (
     <Router>
       <div className="App">

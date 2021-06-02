@@ -24,7 +24,7 @@ const SingleUserPost = ({allPost,id,username}) => {
     useEffect(() =>{
         dataFind(allPost,id )   
     }, [allPost])
-    console.log(users)
+    
     return (       
         <div>
             <Typography variant="h5" component="h5" gutterBottom align="center">

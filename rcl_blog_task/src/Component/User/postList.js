@@ -20,6 +20,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
+import PostComments from './postComments';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -40,12 +41,13 @@ const useStyles = makeStyles((theme) => ({
   modalBox:{
     padding:"1rem",
     backgroundColor:"white",
-    width:"30vw",
-    height:"60vh",
-    position:"absolute",
-    right:"25%",
-    left:"35%",
-    top:"25%"
+    width:"50%",
+    position:"relative",
+    display: 'block',
+    height: '77vh',
+    overflow: 'auto',
+    left: '25%',
+    top: '15%'
   },
   closeBtn:{
     height:"5vh",
@@ -73,8 +75,10 @@ export default function BasicTable({allPosts,allUsers}) {
   const [open, setOpen] = useState(false);
   const [snackBarOpen, setSnackbarOpen] = useState(false);
   const [opened, setOpened] = useState(false);
-  const [allData, setAllData]= useState([]);
-  const [postId, setPostId]= useState(null);
+  const [allData, setAllData] = useState([]);
+  const [postId, setPostId] = useState(null);
+  const [userPostId, setUserPostId] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const history = useHistory();
 
@@ -108,6 +112,14 @@ export default function BasicTable({allPosts,allUsers}) {
     }
     setSnackbarOpen(false);
   }
+  const rowClick = (postId) =>{
+    setModalOpen(true)
+    setUserPostId(postId)
+  }
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  }
 
   const handleDelete = (id) => {
     setSnackbarOpen(true);
@@ -125,6 +137,7 @@ export default function BasicTable({allPosts,allUsers}) {
   useEffect(()=>{
     getAllDatas()
   },[])
+
   return (
     <div>
       <Button
@@ -168,7 +181,7 @@ export default function BasicTable({allPosts,allUsers}) {
           </TableHead>
           <TableBody>
             {allData.map((post,index) => (
-              <TableRow key={index}>
+              <TableRow key={index} onClick={()=>{rowClick(post.id)}}> 
                 <TableCell align="center">{post.username}</TableCell>
                 <TableCell align="center">{post.id}</TableCell>
                 <TableCell align="center">{post.title}</TableCell>
@@ -218,6 +231,22 @@ export default function BasicTable({allPosts,allUsers}) {
                 </TableCell>
               </TableRow>
             ))}
+            <Modal
+          open={modalOpen}
+          onClose={handleCloseModal}
+        >
+        <div className={classes.modalBox}>
+          <PostComments id={userPostId} />
+          <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={handleCloseModal} className={classes.closeBtn}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+        </div>
+        </Modal>
           </TableBody>
         </Table>
       </TableContainer>

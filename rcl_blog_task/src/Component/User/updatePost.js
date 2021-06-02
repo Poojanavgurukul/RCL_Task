@@ -39,7 +39,7 @@ const EditPost = ({allUsersData,postId}) => {
     const [isPending, setIsPending] = useState(false);
     const [open, setOpen] = useState(false);
     const history = useHistory();
-    const {data:post} = useFetch(`http://localhost:8000/posts/${postId}`);
+    const {data:post} = useFetch(`http://localhost:8000/posts/${postId}`);//https://jsonplaceholder.typicode.com
 
     const handleClick = () => {
         setOpen(true);
@@ -51,12 +51,12 @@ const EditPost = ({allUsersData,postId}) => {
         }
         setOpen(false);
     };
-    
+
     const handleUpdate = (e) => {
         e.preventDefault();
         const post = {title, body, username};
         setIsPending(true);
-        fetch(`http://localhost:8000/posts/${postId}`,{
+        fetch(`http://localhost:8000/posts/${postId}`,{//https://jsonplaceholder.typicode.com
             method:"PUT",
             headers:{"Content-type":"application/json"},
             body:JSON.stringify(post)
