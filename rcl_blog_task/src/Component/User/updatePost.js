@@ -51,7 +51,7 @@ const EditPost = ({allUsersData,postId}) => {
         }
         setOpen(false);
     };
-
+    
     const handleUpdate = (e) => {
         e.preventDefault();
         const post = {title, body, username};

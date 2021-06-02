@@ -19,7 +19,7 @@ function App() {
           <Route exact path="/">
           {error && <div>{error}</div>}
             {isloading && <div>loading.....</div>}
-            {users && <UserList allUsers={users} />}
+            {users && <UserList allUsers={users} allPosts={posts} />}
           </Route>
           <Route path="/posts">
             {errorLog && <div>{errorLog}</div>}

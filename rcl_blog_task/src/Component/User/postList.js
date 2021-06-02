@@ -86,6 +86,7 @@ export default function BasicTable({allPosts,allUsers}) {
             }));
             setAllData(mergeData(allPosts, allUsers))
   } 
+  
   const handleOpen = () => {
     setOpen(true);
   };
