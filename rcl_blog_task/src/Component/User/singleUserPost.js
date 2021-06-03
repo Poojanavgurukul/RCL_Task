@@ -46,12 +46,8 @@ const SingleUserPost = ({allPost,id,username}) => {
     
     return (       
         <div>
-            <Typography variant="h5" component="h5" gutterBottom align="center">
-            {username}
-            </Typography>
-            <hr></hr>
             <MUIDataTable
-                title={"Single User Post"}
+                title={username}
                 data={users}
                 columns={columns}
                 options={options}
