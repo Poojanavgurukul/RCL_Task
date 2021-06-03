@@ -1,4 +1,3 @@
-import Typography from '@material-ui/core/Typography';
 import MUIDataTable from "mui-datatables";
 import { useEffect, useState } from "react"
 

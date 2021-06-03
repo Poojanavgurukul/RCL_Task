@@ -124,34 +124,5 @@ export default function BasicTable({allUsers,allPosts}) {
         </div>
         </Modal>
     </div>
-         
-    // <TableContainer component={Paper}>
-    //   <Table className={classes.table} aria-label="simple table">
-    //     <TableHead>
-    //       <TableRow>
-    //         <TableCell>Id</TableCell>
-    //         <TableCell align="center">Name</TableCell>
-    //         <TableCell align="center">UserName</TableCell>
-    //         <TableCell align="center">Email</TableCell>
-    //         <TableCell align="center">Website</TableCell>
-    //         <TableCell align="center">Company Name</TableCell>
-    //       </TableRow>
-    //     </TableHead>
-    //     <TableBody>
-    //       {allUsers.map((user,index) => (
-    //         <TableRow key={index}  onClick={()=>handleOpen(user.id,user.username)}>
-    //           <TableCell component="th" scope="row">
-    //             {user.id}
-    //           </TableCell>
-    //           <TableCell align="center">{user.name}</TableCell>
-    //           <TableCell align="center">{user.username}</TableCell>
-    //           <TableCell align="center">{user.email}</TableCell>
-    //           <TableCell align="center">{user.website}</TableCell>
-    //           <TableCell align="center">{user.company}</TableCell>
-    //         </TableRow>
-    //       ))}
-    //     </TableBody>
-    //   </Table>
-    // </TableContainer>
   );
 }

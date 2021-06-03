@@ -71,7 +71,7 @@ const EditPost = ({allUsersData,postId}) => {
         if(post){
             setTitle(post.title);
             setBody(post.body);
-            setUserName(post.user);
+            setUserName(post.username);
         }
     },[post])
 

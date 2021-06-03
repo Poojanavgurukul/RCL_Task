@@ -181,8 +181,8 @@ export default function BasicTable({allPosts,allUsers}) {
           </TableHead>
           <TableBody>
             {allData.map((post,index) => (
-              <TableRow key={index} onClick={()=>{rowClick(post.id)}}> 
-                <TableCell align="center">{post.username}</TableCell>
+              <TableRow key={index}> 
+                <TableCell align="center" onClick={()=>{rowClick(post.id)}}>{post.username}</TableCell>
                 <TableCell align="center">{post.id}</TableCell>
                 <TableCell align="center">{post.title}</TableCell>
                 <TableCell align="center">{post.body}</TableCell>
