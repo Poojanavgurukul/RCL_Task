@@ -73,7 +73,7 @@ export default function BasicTable({allUsers,allPosts}) {
               <TableCell align="center">{user.username}</TableCell>
               <TableCell align="center">{user.email}</TableCell>
               <TableCell align="center">{user.website}</TableCell>
-              <TableCell align="center">{user.company.name}</TableCell>
+              <TableCell align="center">{user.company}</TableCell>
             </TableRow>
           ))}
         <Modal
