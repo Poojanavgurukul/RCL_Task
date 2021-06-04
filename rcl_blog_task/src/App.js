@@ -16,7 +16,6 @@ function App() {
       fetch('https://jsonplaceholder.typicode.com/users')
       .then((res)=>res.json())
       .then(data=>{
-        console.log(data)
         const userData=data.map((user)=>{
           user.company=user.company.name
           return user;
