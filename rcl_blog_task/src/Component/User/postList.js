@@ -10,69 +10,19 @@ import MUIDataTable from "mui-datatables";
 import PostComments from './postComments';
 import IconButton from '@material-ui/core/IconButton';
 
-import { makeStyles } from '@material-ui/core/styles';
-import { useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import { useContext, useEffect, useState } from "react";
+import { PostContext } from '../../contexts/postContext';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-    '& > * + *': {
-      marginTop: theme.spacing(2),
-    },
-  },
-  table: {
-    minWidth: 650,
-  },
-  buttonAdd: {
-    margin: theme.spacing(1),
-  },
-  modalBox:{
-    padding:"1rem",
-    backgroundColor:"white",
-    width:"50%",
-    position:"relative",
-    display: 'block',
-    height: '77vh',
-    overflow: 'auto',
-    left: '25%',
-    top: '15%'
-  },
-  closeBtn:{
-    height:"5vh",
-    position:"absolute",
-    top:"0",
-    right:"0"
-  },
-  button: {
-    margin: theme.spacing(1),
-  },
-  cancelBtn:{
-    backgroundColor:"#3f51b5",
-    outline:"0",
-    cursor:"pointer",
-    textTransform:"uppercase",
-    borderRadius:"4px",
-    color:"#fff",
-    padding:"6px 16px",
-    transition:"background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms"
-  }
-}));
-
-export default function BasicTable({allPosts,allUsers}) {
-  const classes = useStyles();
+export default function BasicTable() {
   const [open, setOpen] = useState(false);
   const [snackBarOpen, setSnackbarOpen] = useState(false);
   const [opened, setOpened] = useState(false);
   const [allData, setAllData] = useState([]);
-  const [postId, setPostId] = useState(null);
-  const [userPostId, setUserPostId] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-
-  const history = useHistory();
+  const {classes,users,posts,history,id,setId} = useContext(PostContext);
 
   const  getAllDatas = () =>{
     const mergeData = (post, user) =>
@@ -80,7 +30,7 @@ export default function BasicTable({allPosts,allUsers}) {
                 ...user.find((item) => (item.id === element.userId)),
                 ...element
             }));
-            setAllData(mergeData(allPosts, allUsers))
+            setAllData(mergeData(posts, users))
   } 
   
   const handleOpen = () => {
@@ -88,7 +38,7 @@ export default function BasicTable({allPosts,allUsers}) {
   };
   const handleOpened = (e,id) => {
     setOpened(true);
-    setPostId(id);
+    setId(id);
   };
 
   const handleClose = () => {
@@ -106,7 +56,7 @@ export default function BasicTable({allPosts,allUsers}) {
   }
   const rowClick = (postId) =>{
     setModalOpen(true)
-    setUserPostId(postId)
+    setId(postId)
   }
 
   const handleCloseModal = () => {
@@ -202,7 +152,7 @@ export default function BasicTable({allPosts,allUsers}) {
 
   useEffect(()=>{
     getAllDatas()
-  },[])
+  },[users,posts])
 
   return (
     <div>
@@ -228,7 +178,7 @@ export default function BasicTable({allPosts,allUsers}) {
         aria-describedby="simple-modal-description"
       >
         <div className={classes.modalBox}>
-          <PostForm  allUsersData={allUsers}/>
+          <PostForm />
         <IconButton
           aria-label="close"
           color="inherit"
@@ -244,7 +194,7 @@ export default function BasicTable({allPosts,allUsers}) {
           onClose={handleCloseModal}
         >
         <div className={classes.modalBox}>
-          <PostComments id={userPostId} />
+          <PostComments id={id} />
           <IconButton
             aria-label="close"
             color="inherit"
@@ -262,7 +212,7 @@ export default function BasicTable({allPosts,allUsers}) {
           aria-describedby="simple-modal-description"
           >
           <div className={classes.modalBox}>
-          <UpDate  allUsersData={allUsers} postId={postId}/>
+          <UpDate postId={id}/>
             <IconButton
                 aria-label="close"
                 color="inherit"

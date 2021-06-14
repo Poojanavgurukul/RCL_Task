@@ -1,51 +1,27 @@
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
-import { makeStyles } from '@material-ui/core/styles';
-import { useState } from "react";
-import { useHistory } from "react-router";
+import { useContext, useState } from "react";
+import { PostContext } from '../../contexts/postContext';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const useStyles = makeStyles((theme)=>({
-  root: {
-    width: '100%',
-    '& > * + *': {
-      marginTop: theme.spacing(2),
-    },
-  },
-  formBox:{
-    display:"flex",
-    flexWrap:"wrap",
-    justifyContent:"space-around",
-    flexDirection:"column"
-  },
-  space:{
-    margin:"0.5rem 0"
-  },
-  addBtn:{
-    backgroundColor:"#3f51b5",
-    outline:"0",
-    cursor:"pointer",
-    textTransform:"uppercase",
-    borderRadius:"4px",
-    color:"#fff",
-    padding:"6px 16px",
-    transition:"background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms"
-  }
-}));
-const Postform = ({allUsersData}) => {
+const Postform = () => {
 
-  const classes = useStyles();
+  const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [username, setUserName] = useState('');
-  const [isPending, setIsPending] = useState('');
-  const [open, setOpen] = useState(false);
 
-  const history = useHistory();
+  const {
+    history,
+    users,
+    classes,
+    isPending,
+    setIsPending
+  } = useContext(PostContext);
 
   const handleSubmit =()=>{
     const post = {title, body, username};
@@ -96,8 +72,9 @@ const Postform = ({allUsersData}) => {
          className={classes.space}
         />
         <select value={username} onChange={(e)=>setUserName(e.target.value)} className={classes.space}>
+          <option>Select</option>
           {
-            allUsersData.map( user =>(
+            users.map( user =>(
               <option>{user.username}</option>
             ) )
           }
