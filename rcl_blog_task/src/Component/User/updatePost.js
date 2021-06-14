@@ -2,43 +2,25 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import useFetch from '../../CustomHooks/useFetch';
 
-import { makeStyles } from '@material-ui/core/styles';
-import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
+import { useContext, useEffect, useState } from 'react';
+import { PostContext } from '../../contexts/postContext';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-const useStyles = makeStyles((theme)=>({
-    formBox:{
-      display:"flex",
-      flexWrap:"wrap",
-      justifyContent:"space-around",
-      flexDirection:"column"
-    },
-    space:{
-      margin:"0.5rem 0"
-    },
-    addBtn:{
-      backgroundColor:"#3f51b5",
-      outline:"0",
-      cursor:"pointer",
-      textTransform:"uppercase",
-      borderRadius:"4px",
-      color:"#fff",
-      padding:"6px 16px",
-      float:"right",
-      transition:"background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms"
-    },
-  }));
-const EditPost = ({allUsersData,postId}) => {
-    const classes = useStyles();
+const EditPost = ({postId}) => {
+    const [open, setOpen] = useState(false);
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [username, setUserName] = useState('');
-    const [isPending, setIsPending] = useState(false);
-    const [open, setOpen] = useState(false);
-    const history = useHistory();
+
+    const{
+        users,
+        history,
+        classes,
+        isPending,
+        setIsPending
+    }   = useContext(PostContext);
     const {data:post} = useFetch(`https://jsonplaceholder.typicode.com/posts/${postId}`);//https://jsonplaceholder.typicode.com
 
     const handleClick = () => {
@@ -98,7 +80,7 @@ const EditPost = ({allUsersData,postId}) => {
             />
             <select value={username} onChange={(e)=>setUserName(e.target.value)} className={classes.space}>
                 {
-                    allUsersData.map( user =>(
+                    users.map( user =>(
                     <option>{user.username}</option>
                     ) )
                 }

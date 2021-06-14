@@ -4,41 +4,41 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import MUIDataTable from "mui-datatables";
 
-import {useState} from "react";
+import {useContext, useState} from "react";
 import { makeStyles } from '@material-ui/core/styles';
+import { PostContext } from '../../contexts/postContext';
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-  modalBox:{
-    // padding:"1rem",
-    backgroundColor:"white",
-    width:"50%",
-    position:"relative",
-    display: 'block',
-    height: '77vh',
-    overflow: 'auto',
-    left: '25%',
-    top: '15%'
-  },
-  closeBtn:{
-    height:"5vh",
-    position:"absolute",
-    top:"0",
-    right:"0"
-  },
-});
+// const useStyles = makeStyles({
+//   table: {
+//     minWidth: 650,
+//   },
+//   modalBox:{
+//     // padding:"1rem",
+//     backgroundColor:"white",
+//     width:"50%",
+//     position:"relative",
+//     display: 'block',
+//     height: '77vh',
+//     overflow: 'auto',
+//     left: '25%',
+//     top: '15%'
+//   },
+//   closeBtn:{
+//     height:"5vh",
+//     position:"absolute",
+//     top:"0",
+//     right:"0"
+//   },
+// });
 
-export default function BasicTable({allUsers,allPosts}) {
-  const classes = useStyles();
+export default function BasicTable({allPosts}) {
   const [open, setOpen] = useState(false);
-  const [usertId, setUserId] = useState(null);
   const [username, setUsername] = useState('');
 
+  const {users,classes,setId,id} = useContext(PostContext);
   const handleOpen = (id,user) => {
     setOpen(true);
-    setUserId(id);
+    setId(id);
     setUsername(user);
   };
   const handleClose = () => {
@@ -103,7 +103,7 @@ export default function BasicTable({allUsers,allPosts}) {
     <div>
        <MUIDataTable
             title={"User Details"}
-            data={allUsers}
+            data={users}
             columns={columns}
             options={options}
           />
@@ -112,7 +112,7 @@ export default function BasicTable({allUsers,allPosts}) {
           onClose={handleClose}
         >
         <div className={classes.modalBox}>
-          <SingleUserPost  allPost={allPosts} id={usertId} username={username} />
+          <SingleUserPost  id={id} username={username} />
           <IconButton
                 aria-label="close"
                 color="inherit"

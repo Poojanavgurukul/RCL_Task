@@ -1,12 +1,13 @@
 import MUIDataTable from "mui-datatables";
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { PostContext } from "../../contexts/postContext";
 
 
-const SingleUserPost = ({allPost,id,username}) => {
+const SingleUserPost = ({id,username}) => {
     const [users, setUsers] = useState([])
-
+    const {posts} = useContext(PostContext);
     const dataFind = () => {
-       const items = allPost.filter(item => item.userId === id)
+       const items = posts.filter(item => item.userId === id)
        setUsers(items)
     }
     const columns = [
@@ -41,7 +42,7 @@ const SingleUserPost = ({allPost,id,username}) => {
     };
     useEffect(() =>{
         dataFind()   
-    }, [allPost])
+    }, [posts])
     
     return (       
         <div>
