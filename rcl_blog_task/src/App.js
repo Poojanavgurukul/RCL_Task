@@ -13,7 +13,7 @@ function App() {
       <div>
         <PostProvider>
         <Switch>
-          <Route exact path="/">
+          <Route exact={true} path="/">
             <UserList  />
           </Route>
           <Route path="/posts">

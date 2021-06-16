@@ -24,15 +24,7 @@ export default function BasicTable() {
   const [modalOpen, setModalOpen] = useState(false);
   const {classes,users,posts,history,id,setId} = useContext(PostContext);
 
-  const  getAllDatas = () =>{
-    const mergeData = (post, user) =>
-            post.map(element => ({
-                ...user.find((item) => (item.id === element.userId)),
-                ...element
-            }));
-            setAllData(mergeData(posts, users))
-  } 
-  
+    
   const handleOpen = () => {
     setOpen(true);
   };
@@ -151,6 +143,14 @@ export default function BasicTable() {
   }
 
   useEffect(()=>{
+    const  getAllDatas = () =>{
+      const mergeData = (post, user) =>
+              post.map(element => ({
+                  ...user.find((item) => (item.id === element.userId)),
+                  ...element
+              }));
+              setAllData(mergeData(posts, users))
+    }   
     getAllDatas()
   },[users,posts])
 

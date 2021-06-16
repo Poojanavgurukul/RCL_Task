@@ -6,10 +6,6 @@ import { PostContext } from "../../contexts/postContext";
 const SingleUserPost = ({id,username}) => {
     const [users, setUsers] = useState([])
     const {posts} = useContext(PostContext);
-    const dataFind = () => {
-       const items = posts.filter(item => item.userId === id)
-       setUsers(items)
-    }
     const columns = [
         {
          name: "id",
@@ -41,8 +37,12 @@ const SingleUserPost = ({id,username}) => {
         filterType: 'checkbox',
     };
     useEffect(() =>{
+        const dataFind = () => {
+            const items = posts.filter(item => item.userId === id)
+            setUsers(items)
+        }
         dataFind()   
-    }, [posts])
+    }, [posts,id])
     
     return (       
         <div>

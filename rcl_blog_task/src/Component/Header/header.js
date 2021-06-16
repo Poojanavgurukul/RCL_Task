@@ -33,7 +33,7 @@ export default function ButtonAppBar() {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
-          <Link exact to="/" className={classes.linkBox}>
+          <Link to="/" className={classes.linkBox}>
           <Typography variant="h6" className={classes.title}>
             Users
           </Typography>

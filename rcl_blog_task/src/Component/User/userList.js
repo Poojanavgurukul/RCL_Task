@@ -5,31 +5,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import MUIDataTable from "mui-datatables";
 
 import {useContext, useState} from "react";
-import { makeStyles } from '@material-ui/core/styles';
 import { PostContext } from '../../contexts/postContext';
 
-// const useStyles = makeStyles({
-//   table: {
-//     minWidth: 650,
-//   },
-//   modalBox:{
-//     // padding:"1rem",
-//     backgroundColor:"white",
-//     width:"50%",
-//     position:"relative",
-//     display: 'block',
-//     height: '77vh',
-//     overflow: 'auto',
-//     left: '25%',
-//     top: '15%'
-//   },
-//   closeBtn:{
-//     height:"5vh",
-//     position:"absolute",
-//     top:"0",
-//     right:"0"
-//   },
-// });
 
 export default function BasicTable({allPosts}) {
   const [open, setOpen] = useState(false);

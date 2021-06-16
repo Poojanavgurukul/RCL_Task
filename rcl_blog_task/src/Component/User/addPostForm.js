@@ -74,8 +74,8 @@ const Postform = () => {
         <select value={username} onChange={(e)=>setUserName(e.target.value)} className={classes.space}>
           <option>Select</option>
           {
-            users.map( user =>(
-              <option>{user.username}</option>
+            users.map( (user,index) =>(
+              <option key={index}>{user.username}</option>
             ) )
           }
         </select>

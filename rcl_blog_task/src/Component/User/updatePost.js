@@ -33,7 +33,6 @@ const EditPost = ({postId}) => {
         }
         setOpen(false);
     };
-    console.log(post)
     const handleUpdate = (e) => {
         e.preventDefault();
         const post = {title, body, username};
@@ -80,8 +79,8 @@ const EditPost = ({postId}) => {
             />
             <select value={username} onChange={(e)=>setUserName(e.target.value)} className={classes.space}>
                 {
-                    users.map( user =>(
-                    <option>{user.username}</option>
+                    users.map( (user,index) =>(
+                    <option key={index}>{user.username}</option>
                     ) )
                 }
             </select> 
